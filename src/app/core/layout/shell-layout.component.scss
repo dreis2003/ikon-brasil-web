@@ -1,0 +1,278 @@
+.shell {
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 56px minmax(0, 1fr);
+  background: var(--app-bg);
+}
+
+.shell-body {
+  min-height: 0;
+  background: var(--app-bg);
+}
+
+.sidebar {
+  width: 240px;
+  background: var(--app-sidebar);
+  color: #fff;
+  border-right: 0;
+}
+
+.nav {
+  display: grid;
+  gap: 3px;
+  padding: 10px 0;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: var(--app-sidebar-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.nav a.active,
+.nav a:hover {
+  background: rgb(255 255 255 / 10%);
+  color: #fff;
+}
+
+.topbar {
+  z-index: 10;
+  height: 56px;
+  padding: 0 14px;
+  background: var(--app-sidebar);
+  color: #fff;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  gap: 10px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.topbar-brand img {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  object-fit: contain;
+}
+
+.topbar-brand strong,
+.topbar-brand span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar-brand strong {
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.topbar-brand span {
+  margin-top: 1px;
+  color: var(--app-muted);
+  color: var(--app-sidebar-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.menu-toggle,
+.action-button {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--app-muted);
+}
+
+.shell-icon-button {
+  --bs-btn-border-width: 1px;
+  --bs-btn-focus-shadow-rgb: 180, 35, 42;
+}
+
+.menu-toggle:hover,
+.action-button:hover {
+  border-color: var(--app-border);
+  background: var(--app-surface-muted);
+  color: var(--app-text);
+}
+
+.menu-toggle {
+  width: 40px;
+  height: 40px;
+  flex-basis: 40px;
+}
+
+.menu-toggle .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.menu-toggle:focus-visible,
+.action-button:focus-visible {
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--app-primary) 22%, transparent);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.user-card {
+  min-width: 190px;
+  max-width: 280px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 9px 3px 4px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 6%);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 6%);
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--app-primary) 13%, var(--app-surface));
+  color: var(--app-primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.user-info {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.user-info strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 0.82rem;
+  line-height: 1.1;
+}
+
+.user-info span {
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--app-surface-muted);
+  color: var(--app-muted);
+  font-size: 0.62rem;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.logout-button:hover {
+  color: var(--app-danger);
+}
+
+.content {
+  min-height: 100%;
+  padding: 20px;
+}
+
+@media (max-width: 920px) {
+  .shell {
+    grid-template-rows: 52px minmax(0, 1fr);
+  }
+
+  .topbar {
+    height: 52px;
+    padding: 0 10px;
+  }
+
+  .topbar-brand span {
+    display: none;
+  }
+
+  .topbar-brand strong {
+    max-width: 38vw;
+  }
+
+  .user-card {
+    min-width: 36px;
+    width: 36px;
+    padding: 2px;
+    justify-content: center;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .content {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar-actions {
+    gap: 6px;
+  }
+
+  .action-button,
+  .menu-toggle {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .menu-toggle .material-symbols-outlined {
+    font-size: 22px;
+  }
+
+  .topbar-brand {
+    gap: 8px;
+  }
+
+  .topbar-brand img {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .topbar-brand strong {
+    max-width: 32vw;
+    font-size: 0.8rem;
+  }
+}
