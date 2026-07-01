@@ -24,7 +24,12 @@ export class AuthService {
   ) {}
 
   login(request: LoginRequest): Observable<TokenResponse> {
-    return this.http.post<TokenResponse>(`${environment.apiUrl}/auth/login`, request).pipe(
+    const payload: LoginRequest = {
+      email: request.email,
+      senha: request.senha,
+    };
+
+    return this.http.post<TokenResponse>(`${environment.apiUrl}/auth/login`, payload).pipe(
       tap((response) => this.salvarSessao(response)),
     );
   }

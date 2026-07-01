@@ -12,30 +12,36 @@ export const errorInterceptor: HttpInterceptorFn = (request, next) => {
 
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 0) {
+        notification.erro('Nao foi possivel conectar ao servidor. Verifique rede, CORS ou disponibilidade do BFF.');
+      } else if (error.status === 400) {
+        notification.erro(mensagemErro(error) || 'Dados invalidos. Verifique as informacoes enviadas.');
+      } else if (error.status === 401) {
         if (ehRequisicaoPublica(request.url)) {
-          notification.erro('Nao foi possivel concluir a operacao publica. Tente novamente.');
+          notification.erro(ehLogin(request.url) ? 'Usuario ou senha invalidos.' : 'Nao foi possivel concluir a operacao publica. Tente novamente.');
         } else {
           auth.limparSessao();
           router.navigate(['/login']);
           notification.erro('Sessao expirada. Entre novamente.');
         }
       } else if (error.status === 403) {
-        notification.erro('Voce nao possui permissao para executar esta acao.');
+        notification.erro('Acesso negado. Voce nao possui permissao para executar esta acao.');
       } else if (error.status >= 500) {
         notification.erro('Falha no servidor. Tente novamente em instantes.');
-      } else if (error.status !== 0) {
-        notification.erro(mensagemErro(error) || 'Nao foi possivel concluir a operacao.');
       } else {
-        notification.erro('Nao foi possivel conectar ao BFF.');
+        notification.erro(mensagemErro(error) || 'Nao foi possivel concluir a operacao.');
       }
       return throwError(() => error);
     }),
   );
 };
 
+function ehLogin(url: string): boolean {
+  return url.includes('/api/auth/login');
+}
+
 function ehRequisicaoPublica(url: string): boolean {
-  return url.includes('/api/auth/login')
+  return ehLogin(url)
     || url.includes('/api/auth/refresh')
     || url.includes('/api/filiados/publico/')
     || url.includes('/api/cep/');
