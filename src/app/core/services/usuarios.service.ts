@@ -6,7 +6,7 @@ import { AtualizarUsuarioRequest, CriarUsuarioRequest, UsuarioSistema } from '..
 
 @Injectable({ providedIn: 'root' })
 export class UsuariosService {
-  private readonly baseUrl = `${environment.bffUrl}/api/usuarios`;
+  private readonly baseUrl = `${environment.apiUrl}/usuarios`;
 
   constructor(private readonly http: HttpClient) {}
 

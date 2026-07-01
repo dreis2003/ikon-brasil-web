@@ -24,7 +24,7 @@ export class AuthService {
   ) {}
 
   login(request: LoginRequest): Observable<TokenResponse> {
-    return this.http.post<TokenResponse>(`${environment.bffUrl}/api/auth/login`, request).pipe(
+    return this.http.post<TokenResponse>(`${environment.apiUrl}/auth/login`, request).pipe(
       tap((response) => this.salvarSessao(response)),
     );
   }
@@ -33,7 +33,7 @@ export class AuthService {
     const refreshToken = this.refreshTokenSignal();
     this.limparSessao();
     if (refreshToken) {
-      this.http.post(`${environment.bffUrl}/api/auth/logout`, { refreshToken }).pipe(catchError(() => throwError(() => null))).subscribe();
+      this.http.post(`${environment.apiUrl}/auth/logout`, { refreshToken }).pipe(catchError(() => throwError(() => null))).subscribe();
     }
     this.router.navigate(['/login']);
   }

@@ -6,7 +6,7 @@ import { Endereco } from '../models/cadastro.models';
 
 @Injectable({ providedIn: 'root' })
 export class CepService {
-  private readonly baseUrl = `${environment.bffUrl}/api/cep`;
+  private readonly baseUrl = `${environment.apiUrl}/cep`;
 
   constructor(private readonly http: HttpClient) {}
 
