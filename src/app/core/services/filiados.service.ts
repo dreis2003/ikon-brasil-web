@@ -6,7 +6,7 @@ import { Filiado, FiliadoRequest } from '../models/cadastro.models';
 
 @Injectable({ providedIn: 'root' })
 export class FiliadosService {
-  private readonly baseUrl = `${environment.bffUrl}/api/filiados`;
+  private readonly baseUrl = `${environment.apiUrl}/filiados`;
 
   constructor(private readonly http: HttpClient) {}
 

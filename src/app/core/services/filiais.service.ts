@@ -6,7 +6,7 @@ import { CriarFilialRequest, Filial } from '../models/cadastro.models';
 
 @Injectable({ providedIn: 'root' })
 export class FiliaisService {
-  private readonly baseUrl = `${environment.bffUrl}/api/filiais`;
+  private readonly baseUrl = `${environment.apiUrl}/filiais`;
 
   constructor(private readonly http: HttpClient) {}
 
