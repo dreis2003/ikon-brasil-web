@@ -98,7 +98,6 @@ import { NotificationService } from '../../core/services/notification.service';
             <mat-form-field appearance="outline">
               <mat-label>Peso</mat-label>
               <input matInput type="text" formControlName="pesoKg" inputmode="decimal" placeholder="96,3" />
-              <mat-hint>Kg com 1 casa decimal.</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>CPF</mat-label>
