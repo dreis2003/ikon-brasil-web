@@ -412,6 +412,8 @@ interface DetalheFiliadoDialogData {
           <div><dt>Nascimento</dt><dd>{{ data.filiado.dataNascimento | dataBr }}</dd></div>
           <div><dt>Sexo</dt><dd>{{ sexo(data.filiado.sexo) }}</dd></div>
           <div><dt>CPF</dt><dd>{{ data.filiado.cpf || '-' }}</dd></div>
+          <div><dt>Altura</dt><dd>{{ data.filiado.alturaCm ? data.filiado.alturaCm + ' cm' : '-' }}</dd></div>
+          <div><dt>Peso</dt><dd>{{ data.filiado.pesoKg ? peso(data.filiado.pesoKg) : '-' }}</dd></div>
           <div><dt>Nacionalidade</dt><dd>{{ data.filiado.nacionalidade || '-' }}</dd></div>
           <div><dt>Naturalidade</dt><dd>{{ data.filiado.naturalidade || '-' }}</dd></div>
           <div><dt>Profissao</dt><dd>{{ data.filiado.profissao || '-' }}</dd></div>
@@ -608,6 +610,10 @@ class DetalheFiliadoDialogComponent {
 
   simNao(valor: boolean | null | undefined): string {
     return valor ? 'Sim' : 'Nao';
+  }
+
+  peso(pesoKg: number): string {
+    return `${pesoKg.toFixed(1).replace('.', ',')} kg`;
   }
 
   linkWhatsapp(): string | null {

@@ -91,6 +91,16 @@ import { NotificationService } from '../../core/services/notification.service';
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
+              <mat-label>Altura</mat-label>
+              <input matInput type="number" formControlName="alturaCm" min="40" max="250" step="1" placeholder="170" />
+              <mat-hint>Em centimetros.</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Peso</mat-label>
+              <input matInput type="text" formControlName="pesoKg" inputmode="decimal" placeholder="96,3" />
+              <mat-hint>Kg com 1 casa decimal.</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>CPF</mat-label>
               <input matInput formControlName="cpf" placeholder="000.000.000-00" />
             </mat-form-field>
@@ -397,23 +407,24 @@ import { NotificationService } from '../../core/services/notification.service';
     }
 
     .photo-preview {
-      min-height: 56px;
+      min-height: 112px;
       border: 1px solid var(--app-border);
       border-radius: 8px;
       background: var(--app-surface-muted);
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 11px;
+      gap: 12px;
+      padding: 10px;
     }
 
     .photo-preview img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      width: 92px;
+      height: 126px;
+      border-radius: 6px;
       object-fit: cover;
       border: 1px solid var(--app-border);
       background: var(--app-surface);
+      flex: 0 0 auto;
     }
 
     .photo-preview strong,
@@ -523,6 +534,15 @@ import { NotificationService } from '../../core/services/notification.service';
         grid-column: span 1;
       }
 
+      .photo-preview {
+        align-items: flex-start;
+      }
+
+      .photo-preview img {
+        width: 82px;
+        height: 112px;
+      }
+
       .sticky-actions {
         flex-wrap: wrap;
       }
@@ -548,6 +568,8 @@ export class FiliadoFormComponent implements OnInit {
     email: ['', [Validators.email]],
     telefone: [''],
     sexo: ['NAO_INFORMADO' as Sexo],
+    alturaCm: ['', [Validators.min(40), Validators.max(250), Validators.pattern(/^\d*$/)]],
+    pesoKg: ['', [Validators.pattern(/^\d{0,3}([,.]\d)?$/)]],
     tipoSanguineo: ['' as TipoSanguineo | ''],
     dataInicioTreinamento: [''],
     nacionalidade: [''],
@@ -614,6 +636,8 @@ export class FiliadoFormComponent implements OnInit {
           email: filiado.email ?? '',
           telefone: filiado.telefone ?? '',
           sexo: filiado.sexo,
+          alturaCm: filiado.alturaCm?.toString() ?? '',
+          pesoKg: filiado.pesoKg == null ? '' : filiado.pesoKg.toString().replace('.', ','),
           tipoSanguineo: filiado.tipoSanguineo ?? '',
           dataInicioTreinamento: filiado.dataInicioTreinamento ?? '',
           nacionalidade: filiado.nacionalidade ?? '',
@@ -746,6 +770,8 @@ export class FiliadoFormComponent implements OnInit {
       email: valor.email || null,
       telefone: valor.telefone || null,
       sexo: valor.sexo,
+      alturaCm: this.inteiroOuNull(valor.alturaCm),
+      pesoKg: this.decimalOuNull(valor.pesoKg),
       tipoSanguineo: valor.tipoSanguineo || null,
       dataInicioTreinamento: valor.dataInicioTreinamento || null,
       nacionalidade: valor.nacionalidade || null,
@@ -779,6 +805,14 @@ export class FiliadoFormComponent implements OnInit {
         cep: valor.cep || null,
       },
     };
+  }
+
+  private inteiroOuNull(valor: string): number | null {
+    return valor ? Number.parseInt(valor, 10) : null;
+  }
+
+  private decimalOuNull(valor: string): number | null {
+    return valor ? Number.parseFloat(valor.replace(',', '.')) : null;
   }
 
   private configurarBuscaCep(): void {

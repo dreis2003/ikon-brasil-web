@@ -58,6 +58,8 @@ export interface Filiado {
   email?: string | null;
   telefone?: string | null;
   sexo: Sexo;
+  alturaCm?: number | null;
+  pesoKg?: number | null;
   tipoSanguineo?: TipoSanguineo | null;
   dataInicioTreinamento?: string | null;
   nacionalidade?: string | null;
@@ -98,6 +100,8 @@ export interface FiliadoRequest {
   email?: string | null;
   telefone?: string | null;
   sexo?: Sexo | null;
+  alturaCm?: number | null;
+  pesoKg?: number | null;
   tipoSanguineo?: TipoSanguineo | null;
   dataInicioTreinamento?: string | null;
   nacionalidade?: string | null;
