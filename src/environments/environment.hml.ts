@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  nomeAmbiente: 'DEV',
-  appUrl: 'http://localhost:4200',
+  nomeAmbiente: 'HML',
+  appUrl: 'https://gestao-hml.ikon-br.com.br',
   apiUrl: '/api',
 };

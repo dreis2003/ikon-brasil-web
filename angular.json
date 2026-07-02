@@ -58,6 +58,33 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "hml": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hml.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -88,6 +115,9 @@
           "configurations": {
             "production": {
               "buildTarget": "ikon-brasil-web:build:production"
+            },
+            "hml": {
+              "buildTarget": "ikon-brasil-web:build:hml"
             },
             "development": {
               "buildTarget": "ikon-brasil-web:build:development"
