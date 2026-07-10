@@ -10,7 +10,7 @@ html {
     typography: Inter,
     density: -2,
   ));
-  font-size: 100%;
+  font-size: 93.75%;
 }
 
 :root {
@@ -59,7 +59,7 @@ body {
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   background: var(--app-bg);
   color: var(--app-text);
 }
@@ -98,14 +98,14 @@ a {
 
 .page-title {
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 750;
 }
 
 .page-subtitle {
   margin: 4px 0 0;
   color: var(--app-muted);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
 }
 
 .panel {
@@ -173,7 +173,7 @@ a {
 }
 
 .mat-mdc-form-field {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .mat-mdc-form-field .mat-mdc-text-field-wrapper {
@@ -193,7 +193,7 @@ a {
 .mat-mdc-form-field input.mat-mdc-input-element,
 .mat-mdc-form-field textarea.mat-mdc-input-element,
 .mat-mdc-form-field .mat-mdc-select-value {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .mat-mdc-form-field .mat-mdc-floating-label {
@@ -231,6 +231,44 @@ a {
 .mat-mdc-dialog-container .mat-mdc-dialog-actions .mat-mdc-unelevated-button {
   min-height: 30px;
   font-size: 0.78rem;
+}
+
+.sidebar .nav-group {
+  --mat-expansion-container-background-color: transparent;
+  --mat-expansion-container-text-color: var(--app-sidebar-muted);
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--app-sidebar-muted);
+}
+
+.sidebar .nav-group .mat-expansion-panel-header {
+  height: 38px;
+  min-height: 38px;
+  padding: 0 10px 0 14px;
+  border-radius: 8px;
+  color: var(--app-sidebar-muted);
+  font-weight: 760;
+}
+
+.sidebar .nav-group .mat-expansion-panel-header:hover {
+  background: rgb(255 255 255 / 8%);
+  color: #fff;
+}
+
+.sidebar .nav-group .mat-expansion-panel-header-title {
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-size: 0.86rem;
+}
+
+.sidebar .nav-group .mat-expansion-indicator::after {
+  color: var(--app-sidebar-muted);
+}
+
+.sidebar .nav-group .mat-expansion-panel-body {
+  padding: 2px 0 6px;
 }
 
 .muted {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { NotificationService } from '../services/notification.service';
+import { PUBLIC_REQUEST } from './public-request.context';
 
 export const errorInterceptor: HttpInterceptorFn = (request, next) => {
   const auth = inject(AuthService);
@@ -17,7 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (request, next) => {
       } else if (error.status === 400) {
         notification.erro(mensagemErro(error) || 'Dados invalidos. Verifique as informacoes enviadas.');
       } else if (error.status === 401) {
-        if (ehRequisicaoPublica(request.url)) {
+        if (request.context.get(PUBLIC_REQUEST) || ehRequisicaoPublica(request.url)) {
           notification.erro(ehLogin(request.url) ? 'Usuario ou senha invalidos.' : 'Nao foi possivel concluir a operacao publica. Tente novamente.');
         } else {
           auth.limparSessao();
@@ -43,6 +44,7 @@ function ehLogin(url: string): boolean {
 function ehRequisicaoPublica(url: string): boolean {
   return ehLogin(url)
     || url.includes('/api/auth/refresh')
+    || url.includes('/api/bff/publico/graduacoes/')
     || url.includes('/api/filiados/publico/')
     || url.includes('/api/cep/');
 }
@@ -53,11 +55,18 @@ function mensagemErro(error: HttpErrorResponse): string | null {
   }
   if (typeof error.error === 'string') {
     try {
-      const json = JSON.parse(error.error) as { mensagem?: string; message?: string };
-      return json.mensagem || json.message || error.error;
+      const json = JSON.parse(error.error) as { mensagem?: string; message?: string; mensagens?: string[] };
+      return formatarMensagemErro(json) || error.error;
     } catch {
       return error.error;
     }
   }
-  return error.error.mensagem || error.error.message || null;
+  return formatarMensagemErro(error.error);
+}
+
+function formatarMensagemErro(error: { mensagem?: string; message?: string; mensagens?: string[] }): string | null {
+  if (Array.isArray(error.mensagens) && error.mensagens.length > 0) {
+    return error.mensagens.join(' ');
+  }
+  return error.mensagem || error.message || null;
 }

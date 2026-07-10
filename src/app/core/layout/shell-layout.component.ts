@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,6 +18,13 @@ interface MenuItem {
   roles?: string[];
 }
 
+interface MenuGroup {
+  label: string;
+  icon: string;
+  items: MenuItem[];
+  initiallyExpanded?: boolean;
+}
+
 @Component({
   selector: 'app-shell-layout',
   standalone: true,
@@ -25,6 +33,7 @@ interface MenuItem {
     RouterLink,
     RouterLinkActive,
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
@@ -68,12 +77,32 @@ interface MenuItem {
       <mat-sidenav-container class="shell-body">
         <mat-sidenav class="sidebar" [mode]="mobile() ? 'over' : 'side'" [opened]="menuLateralAberto()">
         <nav class="nav">
-          @for (item of menuVisivel(); track item.route) {
-            <a [routerLink]="item.route" routerLinkActive="active" (click)="fecharMenuMobile()">
-              <span class="material-symbols-outlined">{{ item.icon }}</span>
-              <span>{{ item.label }}</span>
-            </a>
-          }
+          <a class="nav-direct" [routerLink]="dashboard.route" routerLinkActive="active" (click)="fecharMenuMobile()">
+            <span class="material-symbols-outlined">{{ dashboard.icon }}</span>
+            <span>{{ dashboard.label }}</span>
+          </a>
+
+          <mat-accordion class="nav-accordion" multi>
+            @for (group of gruposVisiveis(); track group.label) {
+              <mat-expansion-panel class="nav-group" [expanded]="group.initiallyExpanded">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span class="material-symbols-outlined">{{ group.icon }}</span>
+                    <span>{{ group.label }}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="nav-group-items">
+                  @for (item of group.items; track item.route + item.label) {
+                    <a [routerLink]="item.route" routerLinkActive="active" (click)="fecharMenuMobile()">
+                      <span class="material-symbols-outlined">{{ item.icon }}</span>
+                      <span>{{ item.label }}</span>
+                    </a>
+                  }
+                </div>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
         </nav>
       </mat-sidenav>
 
@@ -102,16 +131,64 @@ export class ShellLayoutComponent {
       .join('');
   });
 
-  readonly menu: MenuItem[] = [
-    { label: 'Dashboard', icon: 'dashboard', route: '/app/dashboard' },
-    { label: 'Filiados', icon: 'groups', route: '/app/filiados', permissions: ['FILIADO_VISUALIZAR'] },
-    { label: 'Filiados Pendentes', icon: 'pending_actions', route: '/app/filiados-pendentes', permissions: ['FILIADO_VISUALIZAR'] },
-    { label: 'Filiais', icon: 'account_balance', route: '/app/filiais', permissions: ['FILIAL_VISUALIZAR_TODAS'], roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR'] },
-    { label: 'Relatorios', icon: 'monitoring', route: '/app/relatorios/filial', permissions: ['RELATORIO_VISUALIZAR_FILIAL', 'RELATORIO_VISUALIZAR_TODOS'] },
-    { label: 'HONBU', icon: 'admin_panel_settings', route: '/app/honbu/usuarios', roles: ['MATRIZ_ADMIN'] },
+  readonly dashboard: MenuItem = { label: 'Dashboard', icon: 'dashboard', route: '/app/dashboard' };
+
+  readonly grupos: MenuGroup[] = [
+    {
+      label: 'Cadastros',
+      icon: 'assignment_ind',
+      initiallyExpanded: true,
+      items: [
+        { label: 'Filiados', icon: 'groups', route: '/app/filiados', permissions: ['FILIADO_VISUALIZAR'] },
+        { label: 'Filiais', icon: 'account_balance', route: '/app/filiais', permissions: ['FILIAL_VISUALIZAR_TODAS'], roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR'] },
+        { label: 'Usuários', icon: 'manage_accounts', route: '/app/honbu/usuarios', roles: ['MATRIZ_ADMIN'] },
+        { label: 'Examinadores', icon: 'workspace_premium', route: '/app/graduacoes', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR', 'FILIAL_PROFESSOR', 'FILIAL_RESPONSAVEL'] },
+      ],
+    },
+    {
+      label: 'Graduações',
+      icon: 'military_tech',
+      initiallyExpanded: true,
+      items: [
+        { label: 'Dashboard', icon: 'space_dashboard', route: '/app/graduacoes', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR', 'FILIAL_PROFESSOR', 'FILIAL_RESPONSAVEL'] },
+        { label: 'Exames de Faixa', icon: 'grading', route: '/app/graduacoes/exames', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR', 'FILIAL_RESPONSAVEL'] },
+        { label: 'Programações', icon: 'event_note', route: '/app/graduacoes/programacoes', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR', 'FILIAL_PROFESSOR', 'FILIAL_RESPONSAVEL'] },
+        { label: 'Histórico de Graduações', icon: 'history_edu', route: '/app/graduacoes/historico', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR', 'FILIAL_PROFESSOR', 'FILIAL_RESPONSAVEL'] },
+        { label: 'Certificados Pendentes', icon: 'fact_check', route: '/app/graduacoes/certificados-pendentes', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR'] },
+        { label: 'Tabela Oficial de Graduacoes', icon: 'format_list_numbered', route: '/app/graduacoes/tabela-oficial', roles: ['MATRIZ_ADMIN'] },
+        { label: 'Pré-requisitos', icon: 'rule', route: '/app/graduacoes/pre-requisitos', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR'] },
+        { label: 'Valores Oficiais', icon: 'payments', route: '/app/graduacoes/valores-oficiais', roles: ['MATRIZ_ADMIN', 'MATRIZ_OPERADOR'] },
+      ],
+    },
+    {
+      label: 'Campeonatos',
+      icon: 'emoji_events',
+      items: [
+        { label: 'Campeonatos', icon: 'emoji_events', route: '/app/dashboard' },
+        { label: 'Categorias', icon: 'category', route: '/app/dashboard' },
+        { label: 'Inscricoes', icon: 'app_registration', route: '/app/dashboard' },
+        { label: 'Resultados', icon: 'leaderboard', route: '/app/dashboard' },
+      ],
+    },
+    {
+      label: 'Relatórios',
+      icon: 'monitoring',
+      items: [
+        { label: 'Relatórios', icon: 'query_stats', route: '/app/relatorios/filial', permissions: ['RELATORIO_VISUALIZAR_FILIAL', 'RELATORIO_VISUALIZAR_TODOS'] },
+      ],
+    },
+    {
+      label: 'Configurações',
+      icon: 'settings',
+      items: [
+        { label: 'Usuários', icon: 'admin_panel_settings', route: '/app/honbu/usuarios', roles: ['MATRIZ_ADMIN'] },
+      ],
+    },
   ];
 
-  readonly menuVisivel = computed(() => this.menu.filter((item) => this.podeVer(item)));
+  readonly gruposVisiveis = computed(() => this.grupos
+    .map((group) => ({ ...group, items: group.items.filter((item) => this.podeVer(item)) }))
+    .filter((group) => group.items.length > 0));
 
   constructor(
     readonly auth: AuthService,

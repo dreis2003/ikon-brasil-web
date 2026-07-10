@@ -21,7 +21,7 @@
 .nav {
   display: grid;
   gap: 3px;
-  padding: 10px 0;
+  padding: 10px 8px;
 }
 
 .nav a {
@@ -33,7 +33,7 @@
   border-radius: 8px;
   color: var(--app-sidebar-muted);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 650;
 }
 
@@ -41,6 +41,28 @@
 .nav a:hover {
   background: rgb(255 255 255 / 10%);
   color: #fff;
+}
+
+.nav-accordion {
+  display: grid;
+  gap: 4px;
+}
+
+.nav-group-items {
+  display: grid;
+  gap: 2px;
+  padding-left: 8px;
+}
+
+.nav-group-items a {
+  min-height: 32px;
+  padding-left: 18px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.nav-group-items a .material-symbols-outlined {
+  font-size: 18px;
 }
 
 .topbar {
@@ -78,7 +100,7 @@
 }
 
 .topbar-brand strong {
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   font-weight: 800;
   line-height: 1.1;
 }
@@ -183,7 +205,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #fff;
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   line-height: 1.1;
 }
 

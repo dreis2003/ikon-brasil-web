@@ -1,0 +1,87 @@
+.stat-card {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 10%);
+}
+
+.icon-wrap {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.stat-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.stat-copy strong {
+  font-size: 1.16rem;
+  line-height: 1;
+  font-weight: 820;
+}
+
+.stat-copy span {
+  color: var(--app-muted);
+  font-size: 0.66rem;
+  font-weight: 720;
+  line-height: 1.16;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.azul .icon-wrap {
+  background: color-mix(in srgb, #2f6fed 14%, transparent);
+  color: #2f6fed;
+}
+
+.verde .icon-wrap {
+  background: color-mix(in srgb, var(--app-success) 14%, transparent);
+  color: var(--app-success);
+}
+
+.amarelo .icon-wrap {
+  background: color-mix(in srgb, var(--app-warning) 16%, transparent);
+  color: var(--app-warning);
+}
+
+.vermelho .icon-wrap {
+  background: color-mix(in srgb, var(--app-danger) 13%, transparent);
+  color: var(--app-danger);
+}
+
+.roxo .icon-wrap {
+  background: color-mix(in srgb, #7c3aed 14%, transparent);
+  color: #7c3aed;
+}
+
+.cinza .icon-wrap {
+  background: color-mix(in srgb, var(--app-muted) 14%, transparent);
+  color: var(--app-muted);
+}
